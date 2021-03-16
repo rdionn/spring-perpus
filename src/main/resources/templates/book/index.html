@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{layout/cms}">
+    <head>
+        <meta charset="UTF-8">
+        <title>Daftar Buku - Applikasi Perpus</title>
+    </head>
+    <body>
+        <div class="container-fluid" layout:fragment="content">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Daftar Buku</h6>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <td>Isbn</td>
+                                <td>Judul</td>
+                                <td>Pembuat</td>
+                                <td>Qty</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${books.totalElements} == 0">
+                                <td colspan="4">
+                                    <p class="mb-0 text-center">Belum ada buku</p>
+                                </td>
+                            </tr>
+                            <tr th:if="${books.totalElements} > 0" th:each="book : ${books.content}">
+                                <td th:text="${book.isbn}"></td>
+                                <td th:text="${book.title}"></td>
+                                <td th:text="${book.author}"></td>
+                                <td th:text="${book.qty}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="d-flex">
+                        <a th:if="${books.hasPrevious()}" class="btn btn-default mr-2" th:href="@{/books( page=books.previousPageable().getPageNumber(), entry=10, status=#request.getParameter('status') )}">
+                            Sebelumnya
+                        </a>
+
+                        <a th:if="${books.hasNext()}" class="btn btn-default mr-1" th:href="@{/books( page=books.nextPageable().getPageNumber(), entry=10, status=#request.getParameter('status') )}">
+                            Selajutnya
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
